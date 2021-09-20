@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">AlertReaderKt</string>
+
+    <string name="menu_call_alert">Call Alert</string>
+    <string name="menu_missed_call">Missed Call</string>
+    <string name="menu_store">Store</string>
+    <string name="menu_profile">Profile</string>
+    <string name="loader_text">Please wait…</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="splash_msg"><b><i>Loading...</i></b></string>
+    <string name="settings">Settings</string>
+
+</resources>
