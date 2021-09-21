@@ -1,4 +1,4 @@
-# AlertReaderKt
+# PNSLabCallDetails
 
 A lightweight Android material bottom navigation bar library
 

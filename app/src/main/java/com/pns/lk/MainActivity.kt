@@ -28,6 +28,12 @@ class MainActivity : AppCompatActivity() {
         navController = findNavController(R.id.main_fragment)
         setupActionBarWithNavController(navController)
         checkAndRequestPermissions()
+
+        val sharedPreferences = getSharedPreferences("PNS_PREF", MODE_PRIVATE)
+        val myEdit = sharedPreferences.edit()
+        myEdit.putInt("durationIndex", 2)
+        myEdit.commit();
+        
         Utility.readAlert(this)
         Utility.readMissedCall(this)
         setupSmoothBottomMenu()

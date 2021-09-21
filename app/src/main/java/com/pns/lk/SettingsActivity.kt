@@ -16,7 +16,7 @@ class SettingsActivity : AppCompatActivity() {
         if(sharedPreferences.contains("checkedId")){
             chipGroup.check(sharedPreferences.getInt("checkedId", 0))
         }else {
-            chipGroup.check(chipGroup.getChildAt(3).id)
+            chipGroup.check(chipGroup.getChildAt(2).id)
         }
         chipGroup.setOnCheckedChangeListener{group,checkedId:Int ->
             val chip:Chip? = findViewById(checkedId)

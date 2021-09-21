@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">AlertReaderKt</string>
+    <string name="app_name">PNSLabCallDetails</string>
     <string name="menu_call_alert">الرئيسية</string>
     <string name="menu_profile">حسابي</string>
     <string name="menu_store">المتجر</string>

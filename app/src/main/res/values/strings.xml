@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AlertReaderKt</string>
+    <string name="app_name">PNSLabCallDetails</string>
 
     <string name="menu_call_alert">Call Alert</string>
     <string name="menu_missed_call">Missed Call</string>
