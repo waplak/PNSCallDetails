@@ -20,7 +20,7 @@ class MissedCallFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_missed_call, container, false)
         val lvSMS: ListView = view.findViewById(R.id.lv_sms)
         missedList = PnsDataManager.instance?.getMissedList()!!
-        lvSMS.adapter = AlertListViewAdapter(view.context,missedList)
+        lvSMS.adapter = CallListViewAdapter(view.context,missedList)
         return view
     }
 

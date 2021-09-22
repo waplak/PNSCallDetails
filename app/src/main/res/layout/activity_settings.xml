@@ -142,6 +142,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/replyMsg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -155,13 +156,14 @@
           android:layout_marginTop="100dp"
           android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/imageView2"
+        <ImageButton
+            android:id="@+id/editMsg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
+            android:background="@null"
             android:layout_marginBottom="5dp"
             app:srcCompat="@drawable/edit_icon" />
       </RelativeLayout>

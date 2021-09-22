@@ -64,6 +64,7 @@ class Utility {
             val sortOrder = CallLog.Calls.DATE + " DESC"
             val sb = StringBuffer()
             sb.append(CallLog.Calls.TYPE).append("=?")
+                //.append(" and ").append(CallLog.Calls.IS_READ).append("=?")
             val cResolver = context.contentResolver
             val smsInboxCursor = cResolver.query(
                 Uri.parse("content://call_log/calls"),

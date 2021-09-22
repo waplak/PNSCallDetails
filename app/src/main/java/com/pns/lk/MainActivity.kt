@@ -31,9 +31,14 @@ class MainActivity : AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences("PNS_PREF", MODE_PRIVATE)
         val myEdit = sharedPreferences.edit()
-        myEdit.putInt("durationIndex", 2)
-        myEdit.commit();
-        
+        if(!sharedPreferences.contains("durationIndex")) {
+            myEdit.putInt("durationIndex", 2)
+        }
+        if(!sharedPreferences.contains("replyMsg")) {
+            myEdit.putString("replyMsg", "I will call you later")
+        }
+        myEdit.commit()
+
         Utility.readAlert(this)
         Utility.readMissedCall(this)
         setupSmoothBottomMenu()

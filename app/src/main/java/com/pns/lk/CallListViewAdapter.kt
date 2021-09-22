@@ -9,9 +9,10 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
-class AlertListViewAdapter(context: Context,private val listAlert: ArrayList<CallDetails>) :BaseAdapter() {
+class CallListViewAdapter(context: Context, private val listAlert: ArrayList<CallDetails>) :BaseAdapter() {
     private val mInflator: LayoutInflater = LayoutInflater.from(context)
 
     override fun getCount(): Int {
@@ -48,7 +49,11 @@ class AlertListViewAdapter(context: Context,private val listAlert: ArrayList<Cal
         vh.msgBackBt.setOnClickListener { v ->
             val uri = Uri.parse("smsto:" + listAlert[position].contactNumber)
             val intent = Intent(Intent.ACTION_SENDTO, uri)
-            intent.putExtra("sms_body", "I will call you later")
+            val sharedPreferences =
+                view?.context?.getSharedPreferences("PNS_PREF", AppCompatActivity.MODE_PRIVATE)
+            if (sharedPreferences != null) {
+                intent.putExtra("sms_body", sharedPreferences.getString("replyMsg","I will call you later"))
+            }
             v.context.startActivity(intent)
         }
 
