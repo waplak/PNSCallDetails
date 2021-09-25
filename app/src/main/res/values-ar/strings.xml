@@ -3,7 +3,7 @@
     <string name="app_name">PNSLabCallDetails</string>
     <string name="menu_call_alert">الرئيسية</string>
     <string name="menu_profile">حسابي</string>
-    <string name="menu_store">المتجر</string>
+    <string name="menu_call_history">المتجر</string>
     <string name="menu_missed_call">المتصدرين</string>
     <string name="loader_text">Please wait…</string>
     <string name="splash_msg"><b><i>Loading...</i></b></string>

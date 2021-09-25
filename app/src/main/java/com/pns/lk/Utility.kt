@@ -120,7 +120,7 @@ class Utility {
             val indexNumber: Int = smsInboxCursor!!.getColumnIndex(CallLog.Calls.NUMBER)
             val indexName: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.CACHED_NAME)
             val indexDate: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DATE)
-            val indexDuration: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DURATION)
+            //val indexDuration: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DURATION)
 
             if (indexNumber < 0 || !smsInboxCursor.moveToFirst()) return
 
@@ -131,7 +131,7 @@ class Utility {
                 incomeCall.id = incomeId
                 incomeCall.contactNumber = smsInboxCursor.getString(indexNumber)
                 incomeCall.contactName = smsInboxCursor.getString(indexName)
-                incomeCall.duration = smsInboxCursor.getString(indexDuration)
+               // incomeCall.duration = smsInboxCursor.getString(indexDuration)
                 if (incomeCall.contactName == null) {
                     incomeCall.contactName = incomeCall.contactNumber
                 }
@@ -167,7 +167,7 @@ class Utility {
             val indexNumber: Int = smsInboxCursor!!.getColumnIndex(CallLog.Calls.NUMBER)
             val indexName: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.CACHED_NAME)
             val indexDate: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DATE)
-            val indexDuration: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DURATION)
+           // val indexDuration: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DURATION)
 
             if (indexNumber < 0 || !smsInboxCursor.moveToFirst()) return
 
@@ -178,7 +178,7 @@ class Utility {
                 outGoingCall.id = outGoingId
                 outGoingCall.contactNumber = smsInboxCursor.getString(indexNumber)
                 outGoingCall.contactName = smsInboxCursor.getString(indexName)
-                outGoingCall.duration = smsInboxCursor.getString(indexDuration)
+                //outGoingCall.duration = smsInboxCursor.getString(indexDuration)
                 if (outGoingCall.contactName == null) {
                     outGoingCall.contactName = outGoingCall.contactNumber
                 }

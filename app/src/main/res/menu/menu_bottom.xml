@@ -15,9 +15,9 @@
 
     <item
         android:id="@+id/third_fragment"
-        android:title="@string/menu_store"
-        android:contentDescription="@string/menu_store"
-        android:icon="@drawable/ic_store_white_24dp"/>
+        android:title="@string/menu_call_history"
+        android:contentDescription="@string/menu_call_history"
+        android:icon="@drawable/icons8_activity_history_24"/>
 
     <item
         android:id="@+id/fourth_fragment"

@@ -26,7 +26,7 @@
     <fragment
         android:id="@+id/third_fragment"
         android:name="com.pns.lk.ThirdFragment"
-        android:label="Store"
+        android:label="Calls History"
         tools:layout="@layout/fragment_third" >
         <action
             android:id="@+id/action_thirdFragment_to_fourthFragment"
