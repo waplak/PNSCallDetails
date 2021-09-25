@@ -21,6 +21,7 @@ class CallAlertFragment : Fragment() {
 
         // setting List View for Messages
         val lvSMS: ListView = view.findViewById(R.id.lv_sms)
+        Utility.readAlert(view.context)
         alertList = PnsDataManager.instance?.getAlertList()!!
         lvSMS.adapter = CallListViewAdapter(view.context,alertList)
         return view

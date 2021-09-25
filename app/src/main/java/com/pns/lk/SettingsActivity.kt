@@ -44,16 +44,18 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             myEdit.commit();
-            Utility.readAlert(this)
-            Utility.readMissedCall(this)
+//            Utility.readAlert(this)
+//            Utility.readMissedCall(this)
+//            Utility.readIncomeCall(this)
+//            Utility.readOutgoingCall(this)
         }
 
         editMsg.setOnClickListener { v ->
-            showdialog()
+            showDialog()
         }
     }
 
-    fun showdialog(){
+    private fun showDialog(){
         val sharedPreferences = getSharedPreferences("PNS_PREF", MODE_PRIVATE)
         val builder: AlertDialog.Builder = android.app.AlertDialog.Builder(this)
         builder.setTitle("Update message")

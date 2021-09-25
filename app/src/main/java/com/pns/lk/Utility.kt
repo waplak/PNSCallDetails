@@ -12,7 +12,7 @@ import java.util.regex.Pattern
 
 class Utility {
     companion object {
-        fun readAlert(context: Context): ArrayList<CallDetails>? {
+        fun readAlert(context: Context) {
             PnsDataManager.instance?.getAlertList()?.clear()
             val cResolver = context.contentResolver
             val smsInboxCursor = cResolver.query(
@@ -22,7 +22,7 @@ class Utility {
             val indexBody = smsInboxCursor!!.getColumnIndex("body")
             val indexAddress = smsInboxCursor.getColumnIndex("address")
             val indexDate = smsInboxCursor.getColumnIndex("date")
-            if (indexBody < 0 || !smsInboxCursor.moveToFirst()) return null
+            if (indexBody < 0 || !smsInboxCursor.moveToFirst()) return
 
             var alertId: Long = 0
             do {
@@ -35,7 +35,7 @@ class Utility {
                     while (m.find() && strDate != null) {
                         val alert = CallDetails()
                         ++alertId
-                        alert.alertId = alertId
+                        alert.id = alertId
                         val number = m.group()
                         alert.contactNumber = number
                         val name = getContactName(number, context)
@@ -51,10 +51,9 @@ class Utility {
                     }
                 }
             } while (smsInboxCursor.moveToNext() && strDate != null)
-            return PnsDataManager.instance?.getAlertList()
         }
 
-        fun readMissedCall(context: Context): ArrayList<CallDetails>? {
+        fun readMissedCall(context: Context) {
             PnsDataManager.instance?.getMissedList()?.clear()
             val projection = arrayOf(
                 CallLog.Calls.CACHED_NAME,
@@ -68,20 +67,22 @@ class Utility {
             val cResolver = context.contentResolver
             val smsInboxCursor = cResolver.query(
                 Uri.parse("content://call_log/calls"),
+               // projection, null, null, sortOrder
                 projection, sb.toString(), arrayOf(CallLog.Calls.MISSED_TYPE.toString()), sortOrder
             )
 
             val indexNumber: Int = smsInboxCursor!!.getColumnIndex(CallLog.Calls.NUMBER)
             val indexName: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.CACHED_NAME)
             val indexDate: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DATE)
+            //val indexType: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.TYPE)
 
-            if (indexNumber < 0 || !smsInboxCursor.moveToFirst()) return null
+            if (indexNumber < 0 || !smsInboxCursor.moveToFirst()) return
 
             var missedId: Long = 0
             do {
                 ++missedId
                 val missed = CallDetails()
-                missed.alertId = missedId
+                missed.id = missedId
                 missed.contactNumber = smsInboxCursor.getString(indexNumber)
                 missed.contactName = smsInboxCursor.getString(indexName)
                 if (missed.contactName == null) {
@@ -95,7 +96,101 @@ class Utility {
                 }
             } while (smsInboxCursor.moveToNext() && strDate != null)
 
-            return PnsDataManager.instance?.getMissedList()
+
+        }
+
+        fun readIncomeCall(context: Context) {
+            PnsDataManager.instance?.getIncomeList()?.clear()
+            val projection = arrayOf(
+                CallLog.Calls.CACHED_NAME,
+                CallLog.Calls.NUMBER, CallLog.Calls.DATE, CallLog.Calls.TYPE
+            )
+
+            val sortOrder = CallLog.Calls.DATE + " DESC"
+            val sb = StringBuffer()
+            sb.append(CallLog.Calls.TYPE).append("=?")
+            //.append(" and ").append(CallLog.Calls.IS_READ).append("=?")
+            val cResolver = context.contentResolver
+            val smsInboxCursor = cResolver.query(
+                Uri.parse("content://call_log/calls"),
+                // projection, null, null, sortOrder
+                projection, sb.toString(), arrayOf(CallLog.Calls.INCOMING_TYPE.toString()), sortOrder
+            )
+
+            val indexNumber: Int = smsInboxCursor!!.getColumnIndex(CallLog.Calls.NUMBER)
+            val indexName: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.CACHED_NAME)
+            val indexDate: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DATE)
+            val indexDuration: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DURATION)
+
+            if (indexNumber < 0 || !smsInboxCursor.moveToFirst()) return
+
+            var incomeId: Long = 0
+            do {
+                ++incomeId
+                val incomeCall = CallDetails()
+                incomeCall.id = incomeId
+                incomeCall.contactNumber = smsInboxCursor.getString(indexNumber)
+                incomeCall.contactName = smsInboxCursor.getString(indexName)
+                incomeCall.duration = smsInboxCursor.getString(indexDuration)
+                if (incomeCall.contactName == null) {
+                    incomeCall.contactName = incomeCall.contactNumber
+                }
+                val date = smsInboxCursor.getString(indexDate)
+                val strDate = dateFormatter(date,context)
+                if (strDate != null) {
+                    incomeCall.dateTime = strDate
+                    PnsDataManager.instance?.getIncomeList()?.add(incomeCall)
+                }
+            } while (smsInboxCursor.moveToNext() && strDate != null)
+
+
+        }
+
+        fun readOutgoingCall(context: Context) {
+            PnsDataManager.instance?.getOutGoingList()?.clear()
+            val projection = arrayOf(
+                CallLog.Calls.CACHED_NAME,
+                CallLog.Calls.NUMBER, CallLog.Calls.DATE, CallLog.Calls.TYPE
+            )
+
+            val sortOrder = CallLog.Calls.DATE + " DESC"
+            val sb = StringBuffer()
+            sb.append(CallLog.Calls.TYPE).append("=?")
+            //.append(" and ").append(CallLog.Calls.IS_READ).append("=?")
+            val cResolver = context.contentResolver
+            val smsInboxCursor = cResolver.query(
+                Uri.parse("content://call_log/calls"),
+                // projection, null, null, sortOrder
+                projection, sb.toString(), arrayOf(CallLog.Calls.OUTGOING_TYPE.toString()), sortOrder
+            )
+
+            val indexNumber: Int = smsInboxCursor!!.getColumnIndex(CallLog.Calls.NUMBER)
+            val indexName: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.CACHED_NAME)
+            val indexDate: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DATE)
+            val indexDuration: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DURATION)
+
+            if (indexNumber < 0 || !smsInboxCursor.moveToFirst()) return
+
+            var outGoingId: Long = 0
+            do {
+                ++outGoingId
+                val outGoingCall = CallDetails()
+                outGoingCall.id = outGoingId
+                outGoingCall.contactNumber = smsInboxCursor.getString(indexNumber)
+                outGoingCall.contactName = smsInboxCursor.getString(indexName)
+                outGoingCall.duration = smsInboxCursor.getString(indexDuration)
+                if (outGoingCall.contactName == null) {
+                    outGoingCall.contactName = outGoingCall.contactNumber
+                }
+                val date = smsInboxCursor.getString(indexDate)
+                val strDate = dateFormatter(date,context)
+                if (strDate != null) {
+                    outGoingCall.dateTime = strDate
+                    PnsDataManager.instance?.getOutGoingList()?.add(outGoingCall)
+                }
+            } while (smsInboxCursor.moveToNext() && strDate != null)
+
+
         }
 
         private fun getContactName(phoneNumber: String?, context: Context): String? {

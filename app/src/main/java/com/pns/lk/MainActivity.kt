@@ -39,8 +39,10 @@ class MainActivity : AppCompatActivity() {
         }
         myEdit.commit()
 
-        Utility.readAlert(this)
-        Utility.readMissedCall(this)
+//        Utility.readAlert(this)
+//        Utility.readMissedCall(this)
+//        Utility.readIncomeCall(this)
+//        Utility.readOutgoingCall(this)
         setupSmoothBottomMenu()
     }
 
