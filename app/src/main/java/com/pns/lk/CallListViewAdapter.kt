@@ -41,6 +41,9 @@ class CallListViewAdapter(context: Context, private val listAlert: ArrayList<Cal
 
         vh.contactName.text = listAlert[position].contactName
         vh.dateTime.text = listAlert[position].dateTime
+        if(listAlert[position].duration!=null) {
+            vh.duration.text = "(" + listAlert[position].duration + ")"
+        }
         vh.callBackBt.setOnClickListener { v ->
             val callIntent = Intent(Intent.ACTION_CALL)
             callIntent.data = Uri.parse("tel:" + listAlert[position].contactNumber)
@@ -63,6 +66,7 @@ class CallListViewAdapter(context: Context, private val listAlert: ArrayList<Cal
     private class ListRowHolder(row: View?) {
         public val contactName: TextView = row?.findViewById(R.id.contact_name) as TextView
         public val dateTime: TextView = row?.findViewById(R.id.date_time) as TextView
+        public val duration: TextView = row?.findViewById(R.id.duration) as TextView
         public val callBackBt: ImageButton = row?.findViewById(R.id.call_back) as ImageButton
         public val msgBackBt: ImageButton = row?.findViewById(R.id.msg_back) as ImageButton
 

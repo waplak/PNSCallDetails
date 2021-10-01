@@ -51,13 +51,18 @@ class Utility {
                     }
                 }
             } while (smsInboxCursor.moveToNext() && strDate != null)
+            smsInboxCursor.close()
         }
 
         fun readMissedCall(context: Context) {
             PnsDataManager.instance?.getMissedList()?.clear()
             val projection = arrayOf(
                 CallLog.Calls.CACHED_NAME,
-                CallLog.Calls.NUMBER, CallLog.Calls.DATE, CallLog.Calls.TYPE
+                CallLog.Calls.CACHED_NUMBER_TYPE,
+                CallLog.Calls.NUMBER,
+                CallLog.Calls.DATE,
+                CallLog.Calls.TYPE,
+                CallLog.Calls.DURATION
             )
 
             val sortOrder = CallLog.Calls.DATE + " DESC"
@@ -74,7 +79,7 @@ class Utility {
             val indexNumber: Int = smsInboxCursor!!.getColumnIndex(CallLog.Calls.NUMBER)
             val indexName: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.CACHED_NAME)
             val indexDate: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DATE)
-            //val indexType: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.TYPE)
+            val indexDuration: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DURATION)
 
             if (indexNumber < 0 || !smsInboxCursor.moveToFirst()) return
 
@@ -85,6 +90,7 @@ class Utility {
                 missed.id = missedId
                 missed.contactNumber = smsInboxCursor.getString(indexNumber)
                 missed.contactName = smsInboxCursor.getString(indexName)
+                missed.duration = convertSecondToHHMMString(smsInboxCursor.getInt(indexDuration))
                 if (missed.contactName == null) {
                     missed.contactName = missed.contactNumber
                 }
@@ -95,15 +101,18 @@ class Utility {
                     PnsDataManager.instance?.getMissedList()?.add(missed)
                 }
             } while (smsInboxCursor.moveToNext() && strDate != null)
-
-
+            smsInboxCursor.close()
         }
 
         fun readIncomeCall(context: Context) {
             PnsDataManager.instance?.getIncomeList()?.clear()
             val projection = arrayOf(
                 CallLog.Calls.CACHED_NAME,
-                CallLog.Calls.NUMBER, CallLog.Calls.DATE, CallLog.Calls.TYPE
+                CallLog.Calls.CACHED_NUMBER_TYPE,
+                CallLog.Calls.NUMBER,
+                CallLog.Calls.DATE,
+                CallLog.Calls.TYPE,
+                CallLog.Calls.DURATION
             )
 
             val sortOrder = CallLog.Calls.DATE + " DESC"
@@ -120,7 +129,7 @@ class Utility {
             val indexNumber: Int = smsInboxCursor!!.getColumnIndex(CallLog.Calls.NUMBER)
             val indexName: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.CACHED_NAME)
             val indexDate: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DATE)
-            //val indexDuration: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DURATION)
+            val indexDuration: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DURATION)
 
             if (indexNumber < 0 || !smsInboxCursor.moveToFirst()) return
 
@@ -131,7 +140,7 @@ class Utility {
                 incomeCall.id = incomeId
                 incomeCall.contactNumber = smsInboxCursor.getString(indexNumber)
                 incomeCall.contactName = smsInboxCursor.getString(indexName)
-               // incomeCall.duration = smsInboxCursor.getString(indexDuration)
+                incomeCall.duration = convertSecondToHHMMString(smsInboxCursor.getInt(indexDuration))
                 if (incomeCall.contactName == null) {
                     incomeCall.contactName = incomeCall.contactNumber
                 }
@@ -142,15 +151,18 @@ class Utility {
                     PnsDataManager.instance?.getIncomeList()?.add(incomeCall)
                 }
             } while (smsInboxCursor.moveToNext() && strDate != null)
-
-
+            smsInboxCursor.close()
         }
 
         fun readOutgoingCall(context: Context) {
             PnsDataManager.instance?.getOutGoingList()?.clear()
             val projection = arrayOf(
                 CallLog.Calls.CACHED_NAME,
-                CallLog.Calls.NUMBER, CallLog.Calls.DATE, CallLog.Calls.TYPE
+                CallLog.Calls.CACHED_NUMBER_TYPE,
+                CallLog.Calls.NUMBER,
+                CallLog.Calls.DATE,
+                CallLog.Calls.TYPE,
+                CallLog.Calls.DURATION
             )
 
             val sortOrder = CallLog.Calls.DATE + " DESC"
@@ -167,7 +179,7 @@ class Utility {
             val indexNumber: Int = smsInboxCursor!!.getColumnIndex(CallLog.Calls.NUMBER)
             val indexName: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.CACHED_NAME)
             val indexDate: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DATE)
-           // val indexDuration: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DURATION)
+            val indexDuration: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DURATION)
 
             if (indexNumber < 0 || !smsInboxCursor.moveToFirst()) return
 
@@ -178,7 +190,7 @@ class Utility {
                 outGoingCall.id = outGoingId
                 outGoingCall.contactNumber = smsInboxCursor.getString(indexNumber)
                 outGoingCall.contactName = smsInboxCursor.getString(indexName)
-                //outGoingCall.duration = smsInboxCursor.getString(indexDuration)
+                outGoingCall.duration = convertSecondToHHMMString(smsInboxCursor.getInt(indexDuration))
                 if (outGoingCall.contactName == null) {
                     outGoingCall.contactName = outGoingCall.contactNumber
                 }
@@ -189,10 +201,96 @@ class Utility {
                     PnsDataManager.instance?.getOutGoingList()?.add(outGoingCall)
                 }
             } while (smsInboxCursor.moveToNext() && strDate != null)
-
-
+            smsInboxCursor.close()
         }
+        fun readOutgoingDurationFromContact(context: Context,contactNo:String) : CallDuration{
+            val projection = arrayOf(
+                CallLog.Calls.CACHED_NAME,
+                CallLog.Calls.CACHED_NUMBER_TYPE,
+                CallLog.Calls.NUMBER,
+                CallLog.Calls.DATE,
+                CallLog.Calls.TYPE,
+                CallLog.Calls.DURATION
+            )
 
+            val sortOrder = CallLog.Calls.DATE + " DESC"
+            val sb = StringBuffer()
+            sb.append(CallLog.Calls.TYPE).append("=?")
+            .append(" and ").append(CallLog.Calls.NUMBER).append("=?")
+            val cResolver = context.contentResolver
+            val smsInboxCursor = cResolver.query(
+                Uri.parse("content://call_log/calls"),
+                projection, sb.toString(), arrayOf(CallLog.Calls.OUTGOING_TYPE.toString(),contactNo), sortOrder
+            )
+
+            val indexNumber: Int = smsInboxCursor!!.getColumnIndex(CallLog.Calls.NUMBER)
+            val indexName: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.CACHED_NAME)
+            val indexDate: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DATE)
+            val indexDuration: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DURATION)
+            if (indexNumber < 0 || !smsInboxCursor.moveToFirst()) return CallDuration()
+
+            val outGoingDuration = CallDuration()
+            outGoingDuration.contactNumber = smsInboxCursor.getString(indexNumber)
+            outGoingDuration.contactName = smsInboxCursor.getString(indexName)
+            if (outGoingDuration.contactName == null) {
+                outGoingDuration.contactName = outGoingDuration.contactNumber
+            }
+            var outGoingDurationTime = 0
+            do {
+                val date = smsInboxCursor.getString(indexDate)
+                val strDate = dateFormatter(date,context)
+                if (strDate != null) {
+                    outGoingDurationTime += smsInboxCursor.getInt(indexDuration)
+                }
+            } while (smsInboxCursor.moveToNext() && strDate != null)
+            smsInboxCursor.close()
+            outGoingDuration.outGoingDuration = convertSecondToHHMMString(outGoingDurationTime)
+            return outGoingDuration
+        }
+        fun readIncomingDurationFromContact(context: Context,contactNo:String) : CallDuration {
+            val projection = arrayOf(
+                CallLog.Calls.CACHED_NAME,
+                CallLog.Calls.CACHED_NUMBER_TYPE,
+                CallLog.Calls.NUMBER,
+                CallLog.Calls.DATE,
+                CallLog.Calls.TYPE,
+                CallLog.Calls.DURATION
+            )
+
+            val sortOrder = CallLog.Calls.DATE + " DESC"
+            val sb = StringBuffer()
+            sb.append(CallLog.Calls.TYPE).append("=?")
+                .append(" and ").append(CallLog.Calls.NUMBER).append("=?")
+            val cResolver = context.contentResolver
+            val smsInboxCursor = cResolver.query(
+                Uri.parse("content://call_log/calls"),
+                projection, sb.toString(), arrayOf(CallLog.Calls.INCOMING_TYPE.toString(),contactNo), sortOrder
+            )
+
+            val indexNumber: Int = smsInboxCursor!!.getColumnIndex(CallLog.Calls.NUMBER)
+            val indexName: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.CACHED_NAME)
+            val indexDate: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DATE)
+            val indexDuration: Int = smsInboxCursor.getColumnIndex(CallLog.Calls.DURATION)
+            if (indexNumber < 0 || !smsInboxCursor.moveToFirst()) return CallDuration()
+
+            val incomingDuration = CallDuration()
+            incomingDuration.contactNumber = smsInboxCursor.getString(indexNumber)
+            incomingDuration.contactName = smsInboxCursor.getString(indexName)
+            if (incomingDuration.contactName == null) {
+                incomingDuration.contactName = incomingDuration.contactNumber
+            }
+            var incomingDurationTime = 0
+            do {
+                val date = smsInboxCursor.getString(indexDate)
+                val strDate = dateFormatter(date,context)
+                if (strDate != null) {
+                    incomingDurationTime += smsInboxCursor.getInt(indexDuration)
+                }
+            } while (smsInboxCursor.moveToNext() && strDate != null)
+            incomingDuration.incomingDuration = convertSecondToHHMMString(incomingDurationTime)
+            smsInboxCursor.close()
+            return incomingDuration
+        }
         private fun getContactName(phoneNumber: String?, context: Context): String? {
             val uri = Uri.withAppendedPath(
                 ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
@@ -239,7 +337,7 @@ class Utility {
                     val sdfDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
                     return sdfDate.format(callDate)
                 }
-                return null;
+                return null
 
             }
             val timestamp = date.toLong()
@@ -249,5 +347,18 @@ class Utility {
             val sdfDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             return sdfDate.format(callDate)
         }
+
+        private fun convertSecondToHHMMString(seconds: Int): String {
+            val h = seconds / 3600
+            val m = seconds % 3600 / 60
+            val s = seconds % 60
+            val sh = if (h > 0) "$h h" else ""
+            val sm =
+                (if (m in 1..9 && h > 0) "0" else "") + if (m > 0) if (h > 0 && s == 0) m.toString() else "$m min" else ""
+            val ss =
+                if (s == 0 && (h > 0 || m > 0)) "" else (if (s < 10 && (h > 0 || m > 0)) "0" else "") + s.toString() + " " + "sec"
+            return sh + (if (h > 0) " " else "") + sm + (if (m > 0) " " else "") + ss
+        }
     }
+
 }

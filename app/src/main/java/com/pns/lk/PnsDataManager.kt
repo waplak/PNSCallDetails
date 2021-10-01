@@ -5,7 +5,7 @@ class PnsDataManager {
     private var missedList: ArrayList<CallDetails> = ArrayList<CallDetails>()
     private var incomeList: ArrayList<CallDetails> = ArrayList<CallDetails>()
     private var inoutGoingList: ArrayList<CallDetails> = ArrayList<CallDetails>()
-
+    private var limitDate: String? = null
     companion object {
         private var manager: PnsDataManager? = null
         val instance: PnsDataManager?
@@ -29,5 +29,11 @@ class PnsDataManager {
     }
     fun getOutGoingList(): ArrayList<CallDetails> {
         return inoutGoingList
+    }
+    fun setLimitDate(date:String){
+        this.limitDate = date
+    }
+    fun getLimitDate(): String? {
+        return limitDate
     }
 }

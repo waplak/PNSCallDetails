@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.pns.lk.databinding.ActivityMainBinding
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         val myEdit = sharedPreferences.edit()
         if(!sharedPreferences.contains("durationIndex")) {
             myEdit.putInt("durationIndex", 2)
+
         }
         if(!sharedPreferences.contains("replyMsg")) {
             myEdit.putString("replyMsg", "I will call you later")

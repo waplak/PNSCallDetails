@@ -22,7 +22,7 @@
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/colorTextPrimary"
             app:tabTextColor="@color/tab_text"
-            app:tabIndicatorHeight="3dp"
+            app:tabIndicatorHeight="5dp"
             app:tabIndicatorColor="@color/tab_indicator"
             app:tabTextAppearance="@style/MyCustomTextAppearance"
             />

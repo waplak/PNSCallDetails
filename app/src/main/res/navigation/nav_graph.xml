@@ -27,14 +27,14 @@
         android:id="@+id/third_fragment"
         android:name="com.pns.lk.ThirdFragment"
         android:label="Calls History"
-        tools:layout="@layout/fragment_third" >
-        <action
-            android:id="@+id/action_thirdFragment_to_fourthFragment"
-            app:destination="@id/fourth_fragment" />
+        tools:layout="@layout/fragment_call_history" >
+<!--        <action-->
+<!--            android:id="@+id/action_thirdFragment_to_fourthFragment"-->
+<!--            app:destination="@id/fourth_fragment" />-->
     </fragment>
-    <fragment
-        android:id="@+id/fourth_fragment"
-        android:name="com.pns.lk.FourthFragment"
-        android:label="Profile"
-        tools:layout="@layout/fragment_fourth" />
+<!--    <fragment-->
+<!--        android:id="@+id/fourth_fragment"-->
+<!--        android:name="com.pns.lk.FourthFragment"-->
+<!--        android:label="Profile"-->
+<!--        tools:layout="@layout/fragment_fourth" />-->
 </navigation>

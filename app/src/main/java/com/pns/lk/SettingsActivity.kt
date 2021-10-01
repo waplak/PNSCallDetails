@@ -11,6 +11,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -31,18 +33,33 @@ class SettingsActivity : AppCompatActivity() {
             val chip:Chip? = findViewById(checkedId)
             val myEdit = sharedPreferences.edit()
             myEdit.putInt("checkedId", checkedId);
+            val sdfDate = SimpleDateFormat("yyyy-MM-dd")
+            val limitCal = Calendar.getInstance()
+            var startDate: String? = null
             if(group.getChildAt(0).id==checkedId){
                 myEdit.putInt("durationIndex", 0)
+                limitCal.add(Calendar.MONTH, -1)
+                startDate = sdfDate.format(limitCal.time)
             }else if(group.getChildAt(1).id==checkedId){
                 myEdit.putInt("durationIndex", 1)
+                limitCal.add(Calendar.MONTH, -3)
+                startDate = sdfDate.format(limitCal.time)
             }
             else if(group.getChildAt(2).id==checkedId){
                 myEdit.putInt("durationIndex", 2)
+                limitCal.add(Calendar.MONTH, -6)
+                startDate = sdfDate.format(limitCal.time)
             }
             else if(group.getChildAt(3).id==checkedId){
                 myEdit.putInt("durationIndex", 3)
+                startDate = null
             }
 
+            if (startDate != null) {
+                PnsDataManager.instance?.setLimitDate("Call History Data between "+startDate+" To "+sdfDate.format(Calendar.getInstance().time))
+            }else{
+                PnsDataManager.instance?.setLimitDate("All Previous call history")
+            }
             myEdit.commit();
 //            Utility.readAlert(this)
 //            Utility.readMissedCall(this)

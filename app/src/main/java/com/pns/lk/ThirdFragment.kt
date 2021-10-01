@@ -20,7 +20,7 @@ class ThirdFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_third, container, false)
+        val view = inflater.inflate(R.layout.fragment_call_history, container, false)
         var viewPager = view.findViewById(R.id.view_pager) as ViewPager2
         var tabLayout = view.findViewById(R.id.tabs) as TabLayout
         viewPager.adapter = createCardAdapter();
