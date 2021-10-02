@@ -12,7 +12,6 @@ import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
-import java.text.SimpleDateFormat
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -48,14 +47,14 @@ class OutgoingFragment : Fragment() {
         Utility.readOutgoingCall(view.context)
         outgoingList = PnsDataManager.instance?.getOutGoingList()!!
         lvSMS.adapter = CallListViewAdapter(view.context,outgoingList)
-        lvSMS.onItemClickListener = AdapterView.OnItemClickListener { arg0, arg1, pos, id ->
-            var callOutgoingDuration = outgoingList[pos].contactNumber?.let {
+        lvSMS.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
+            val callOutgoingDuration = outgoingList[pos].contactNumber?.let {
                 Utility.readOutgoingDurationFromContact(
                     view.context,
                     it
                 )
             }
-            var callIncomingDuration = outgoingList[pos].contactNumber?.let {
+            val callIncomingDuration = outgoingList[pos].contactNumber?.let {
                 Utility.readIncomingDurationFromContact(
                     view.context,
                     it
@@ -68,17 +67,8 @@ class OutgoingFragment : Fragment() {
             val contactName : TextView = alertCustodial.findViewById(R.id.contactName)
             contactName.text = callIncomingDuration?.contactName
             val period : TextView = alertCustodial.findViewById(R.id.period)
-            if(PnsDataManager.instance?.getLimitDate()!=null){
-                period.text = PnsDataManager.instance?.getLimitDate()
-            }else{
-                val sdfDate = SimpleDateFormat("yyyy-MM-dd")
-                val limitCal = Calendar.getInstance()
-                limitCal.add(Calendar.MONTH, -6)
-                var startDate = sdfDate.format(limitCal.time)
-                PnsDataManager.instance?.setLimitDate("Call History Data between "+startDate+" To "+sdfDate.format(
-                    Calendar.getInstance().time))
-                period.text = PnsDataManager.instance?.getLimitDate()
-            }
+            period.text = PnsDataManager.instance?.getLimitDate()
+
             val incomCall : TextView = alertCustodial.findViewById(R.id.incomCall)
             incomCall.text = callIncomingDuration?.incomingDuration
             val outCall : TextView = alertCustodial.findViewById(R.id.outCall)

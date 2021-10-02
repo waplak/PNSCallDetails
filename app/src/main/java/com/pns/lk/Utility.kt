@@ -310,6 +310,7 @@ class Utility {
 
         @SuppressLint("SimpleDateFormat")
         private fun dateFormatter(date: String, context: Context): String? {
+            val sdfStrDate = SimpleDateFormat("yyyy-MM-dd")
             val sharedPreferences = context.getSharedPreferences("PNS_PREF", AppCompatActivity.MODE_PRIVATE)
             if(sharedPreferences.contains("durationIndex")){
                 val index = sharedPreferences.getInt("durationIndex", 0)
@@ -326,6 +327,7 @@ class Utility {
                     calendar.timeInMillis = timestamp
                     val callDate = calendar.time
                     val sdfDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                    PnsDataManager.instance?.setLimitDate("All Previous call history")
                     return sdfDate.format(callDate)
                 }
                 val timestamp = date.toLong()
@@ -333,8 +335,12 @@ class Utility {
                 calendar.timeInMillis = timestamp
                 val callDate = calendar.time
                 val limitDate = limitCal.time
+                val startDate = sdfStrDate.format(limitCal.time)
                 if (limitDate.before(callDate)){
                     val sdfDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                    PnsDataManager.instance?.setLimitDate(
+                        "Call History Data between $startDate To " +sdfDate.format(
+                            Calendar.getInstance().time))
                     return sdfDate.format(callDate)
                 }
                 return null
@@ -345,6 +351,7 @@ class Utility {
             calendar.timeInMillis = timestamp
             val callDate = calendar.time
             val sdfDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            PnsDataManager.instance?.setLimitDate("All Previous call history")
             return sdfDate.format(callDate)
         }
 

@@ -1,7 +1,6 @@
 package com.pns.lk
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
@@ -9,9 +8,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -30,51 +27,37 @@ class SettingsActivity : AppCompatActivity() {
             chipGroup.check(chipGroup.getChildAt(2).id)
         }
         chipGroup.setOnCheckedChangeListener{group,checkedId:Int ->
-            val chip:Chip? = findViewById(checkedId)
+            //val chip:Chip? = findViewById(checkedId)
             val myEdit = sharedPreferences.edit()
-            myEdit.putInt("checkedId", checkedId);
-            val sdfDate = SimpleDateFormat("yyyy-MM-dd")
+            myEdit.putInt("checkedId", checkedId)
             val limitCal = Calendar.getInstance()
-            var startDate: String? = null
             if(group.getChildAt(0).id==checkedId){
                 myEdit.putInt("durationIndex", 0)
                 limitCal.add(Calendar.MONTH, -1)
-                startDate = sdfDate.format(limitCal.time)
             }else if(group.getChildAt(1).id==checkedId){
                 myEdit.putInt("durationIndex", 1)
                 limitCal.add(Calendar.MONTH, -3)
-                startDate = sdfDate.format(limitCal.time)
             }
             else if(group.getChildAt(2).id==checkedId){
                 myEdit.putInt("durationIndex", 2)
                 limitCal.add(Calendar.MONTH, -6)
-                startDate = sdfDate.format(limitCal.time)
             }
             else if(group.getChildAt(3).id==checkedId){
                 myEdit.putInt("durationIndex", 3)
-                startDate = null
             }
 
-            if (startDate != null) {
-                PnsDataManager.instance?.setLimitDate("Call History Data between "+startDate+" To "+sdfDate.format(Calendar.getInstance().time))
-            }else{
-                PnsDataManager.instance?.setLimitDate("All Previous call history")
-            }
-            myEdit.commit();
-//            Utility.readAlert(this)
-//            Utility.readMissedCall(this)
-//            Utility.readIncomeCall(this)
-//            Utility.readOutgoingCall(this)
+
+            myEdit.apply()
         }
 
-        editMsg.setOnClickListener { v ->
+        editMsg.setOnClickListener {
             showDialog()
         }
     }
 
     private fun showDialog(){
         val sharedPreferences = getSharedPreferences("PNS_PREF", MODE_PRIVATE)
-        val builder: AlertDialog.Builder = android.app.AlertDialog.Builder(this)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setTitle("Update message")
         val input = EditText(this)
         input.setText(sharedPreferences.getString("replyMsg","I will call you later"))
@@ -85,23 +68,22 @@ class SettingsActivity : AppCompatActivity() {
         builder.setView(input)
 
         // Set up the buttons
-        builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+        builder.setPositiveButton("OK") { _, _ ->
             // Here you get get input text from the Edittext
-            var msgText = input.text.toString()
-            val sharedPreferences = getSharedPreferences("PNS_PREF", MODE_PRIVATE)
+            val msgText = input.text.toString()
             val myEdit = sharedPreferences.edit()
             myEdit.putString("replyMsg", msgText)
-            myEdit.commit()
+            myEdit.apply()
             val replyMsg: TextView = findViewById(R.id.replyMsg)
             replyMsg.text = msgText
 
-            finish();
-            overridePendingTransition(0, 0);
+            finish()
+            overridePendingTransition(0, 0)
             startActivity(intent)
-            overridePendingTransition(0, 0);
+            overridePendingTransition(0, 0)
 
-        })
-        builder.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
+        }
+        builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
 
         builder.show()
     }
