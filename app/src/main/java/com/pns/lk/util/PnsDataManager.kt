@@ -1,4 +1,6 @@
-package com.pns.lk
+package com.pns.lk.util
+
+import com.pns.lk.dto.CallDetails
 
 class PnsDataManager {
     private var alertList: ArrayList<CallDetails> = ArrayList<CallDetails>()

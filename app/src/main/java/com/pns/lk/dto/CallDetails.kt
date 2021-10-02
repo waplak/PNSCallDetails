@@ -1,4 +1,4 @@
-package com.pns.lk
+package com.pns.lk.dto
 
 class CallDetails {
     var id: Long = 0

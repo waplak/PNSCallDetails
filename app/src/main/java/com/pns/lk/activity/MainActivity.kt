@@ -1,4 +1,4 @@
-package com.pns.lk
+package com.pns.lk.activity
 
 import android.Manifest
 import android.content.Intent
@@ -13,8 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.pns.lk.R
 import com.pns.lk.databinding.ActivityMainBinding
-import java.text.SimpleDateFormat
 import java.util.*
 
 

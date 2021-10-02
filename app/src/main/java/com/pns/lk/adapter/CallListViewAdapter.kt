@@ -1,4 +1,4 @@
-package com.pns.lk
+package com.pns.lk.adapter
 
 import android.content.Context
 import android.content.Intent
@@ -10,6 +10,8 @@ import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.pns.lk.R
+import com.pns.lk.dto.CallDetails
 import java.util.*
 
 class CallListViewAdapter(context: Context, private val listAlert: ArrayList<CallDetails>) :BaseAdapter() {

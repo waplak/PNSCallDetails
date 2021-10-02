@@ -1,9 +1,10 @@
-package com.pns.lk
+package com.pns.lk.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import com.pns.lk.R
 
 class SplashActivity : AppCompatActivity() {
     private var mDelayHandler: Handler? = null

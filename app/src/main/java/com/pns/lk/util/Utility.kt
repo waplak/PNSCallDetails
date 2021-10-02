@@ -1,4 +1,4 @@
-package com.pns.lk
+package com.pns.lk.util
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,6 +6,8 @@ import android.net.Uri
 import android.provider.CallLog
 import android.provider.ContactsContract
 import androidx.appcompat.app.AppCompatActivity
+import com.pns.lk.dto.CallDetails
+import com.pns.lk.dto.CallDuration
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -203,7 +205,7 @@ class Utility {
             } while (smsInboxCursor.moveToNext() && strDate != null)
             smsInboxCursor.close()
         }
-        fun readOutgoingDurationFromContact(context: Context,contactNo:String) : CallDuration{
+        fun readOutgoingDurationFromContact(context: Context,contactNo:String) : CallDuration {
             val projection = arrayOf(
                 CallLog.Calls.CACHED_NAME,
                 CallLog.Calls.CACHED_NUMBER_TYPE,

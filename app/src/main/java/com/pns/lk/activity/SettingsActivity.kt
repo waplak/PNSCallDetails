@@ -1,4 +1,4 @@
-package com.pns.lk
+package com.pns.lk.activity
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.chip.ChipGroup
+import com.pns.lk.R
 import java.util.*
 
 
