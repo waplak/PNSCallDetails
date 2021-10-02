@@ -10,5 +10,9 @@
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="splash_msg"><b><i>Loading...</i></b></string>
     <string name="settings">Settings</string>
+    <string name="about_us">About Us</string>
+    <string name="copy_right" translatable="false">Copyrights © PNS Labs 2021</string>
+    <string name="description"> PNS Labs consists of a highly motivated, innovative &amp; experienced team of software engineers, who have years of experience in development &amp; implementation of software projects.
+We design and build state-of-the-art, cutting-edge technology platforms which enable the digital transformation of businesses.</string>
 
 </resources>

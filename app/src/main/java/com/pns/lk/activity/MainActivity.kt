@@ -1,6 +1,7 @@
 package com.pns.lk.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -8,8 +9,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -49,7 +52,10 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+    @SuppressLint("RestrictedApi")
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        if (menu is MenuBuilder) (menu as MenuBuilder).setOptionalIconsVisible(true)
         menuInflater.inflate(R.menu.another_menu, menu)
         return true
     }
@@ -58,6 +64,10 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.another_item_1 -> {
                 val intent = Intent(applicationContext, SettingsActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.another_item_2 -> {
+                val intent = Intent(applicationContext, AboutUsActivity::class.java)
                 startActivity(intent)
             }
         }
